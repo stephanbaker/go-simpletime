@@ -220,6 +220,14 @@ func TestAddDays(t *testing.T) {
 	if result != expected {
 		t.Errorf("TestAddDays Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
 	}
+
+	input = time.Date(2001, 2, 3, 4, 5, 6, 7, time.UTC)
+	expected = time.Date(2001, 2, 1, 4, 5, 6, 7, time.UTC)
+	result = NewSimpleTime(input).AddDays(-2)
+	if result != expected {
+		t.Errorf("TestAddDays Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
+	}
+
 }
 
 func TestNextDay(t *testing.T) {
@@ -228,6 +236,16 @@ func TestNextDay(t *testing.T) {
 
 	result := NewSimpleTime(input).NextDay()
 	if result != expected {
-		t.Errorf("NextDay Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
+		t.Errorf("TestNextDay Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
+	}
+}
+
+func TestPrevDay(t *testing.T) {
+	input := time.Date(2001, 2, 3, 4, 5, 6, 7, time.UTC)
+	expected := time.Date(2001, 2, 2, 4, 5, 6, 7, time.UTC)
+
+	result := NewSimpleTime(input).PrevDay()
+	if result != expected {
+		t.Errorf("TestPrevDay Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
 	}
 }

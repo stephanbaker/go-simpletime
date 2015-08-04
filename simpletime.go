@@ -104,3 +104,7 @@ func (t *SimpleTime) AddDays(days int) time.Time {
 func (t *SimpleTime) NextDay() time.Time {
 	return t.AddDays(1)
 }
+
+func (t *SimpleTime) PrevDay() time.Time {
+	return t.AddDays(-1)
+}
