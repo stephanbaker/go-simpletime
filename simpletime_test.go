@@ -221,3 +221,13 @@ func TestAddDays(t *testing.T) {
 		t.Errorf("TestAddDays Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
 	}
 }
+
+func TestNextDay(t *testing.T) {
+	input := time.Date(2001, 2, 3, 4, 5, 6, 7, time.UTC)
+	expected := time.Date(2001, 2, 4, 4, 5, 6, 7, time.UTC)
+
+	result := NewSimpleTime(input).NextDay()
+	if result != expected {
+		t.Errorf("NextDay Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
+	}
+}

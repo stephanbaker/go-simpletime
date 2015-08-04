@@ -100,3 +100,7 @@ func (t *SimpleTime) NextSaturday() time.Time {
 func (t *SimpleTime) AddDays(days int) time.Time {
 	return t.AddDate(0, 0, days)
 }
+
+func (t *SimpleTime) NextDay() time.Time {
+	return t.AddDays(1)
+}
