@@ -96,3 +96,15 @@ func (t *SimpleTime) NextFriday() time.Time {
 func (t *SimpleTime) NextSaturday() time.Time {
 	return t.NextOccurrenceOfWeekday(time.Weekday(6))
 }
+
+func (t *SimpleTime) AddDays(days int) time.Time {
+	return t.AddDate(0, 0, days)
+}
+
+func (t *SimpleTime) NextDay() time.Time {
+	return t.AddDays(1)
+}
+
+func (t *SimpleTime) PrevDay() time.Time {
+	return t.AddDays(-1)
+}
