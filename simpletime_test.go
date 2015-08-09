@@ -213,19 +213,28 @@ func TestNextSaturday(t *testing.T) {
 }
 
 func TestAddDays(t *testing.T) {
-	input := time.Date(2001, 2, 3, 4, 5, 6, 7, time.UTC)
-	expected := time.Date(2001, 2, 103, 4, 5, 6, 7, time.UTC)
-
-	result := NewSimpleTime(input).AddDays(100)
-	if result != expected {
-		t.Errorf("TestAddDays Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
+	tests := []struct {
+		input    time.Time
+		expected time.Time
+		days     int
+	}{
+		{
+			time.Date(2001, 2, 3, 4, 5, 6, 7, time.UTC),
+			time.Date(2001, 2, 103, 4, 5, 6, 7, time.UTC),
+			100,
+		},
+		{
+			time.Date(2001, 2, 3, 4, 5, 6, 7, time.UTC),
+			time.Date(2001, 2, 1, 4, 5, 6, 7, time.UTC),
+			-2,
+		},
 	}
+	for i, test := range tests {
+		result := NewSimpleTime(test.input).AddDays(test.days)
+		if result != test.expected {
+			t.Errorf("TestAddDays %d Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", i, test.input, test.expected, result)
+		}
 
-	input = time.Date(2001, 2, 3, 4, 5, 6, 7, time.UTC)
-	expected = time.Date(2001, 2, 1, 4, 5, 6, 7, time.UTC)
-	result = NewSimpleTime(input).AddDays(-2)
-	if result != expected {
-		t.Errorf("TestAddDays Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
 	}
 
 }
