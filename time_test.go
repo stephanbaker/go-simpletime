@@ -258,3 +258,33 @@ func TestPrevDay(t *testing.T) {
 		t.Errorf("TestPrevDay Failed:\nInput=(%v),\nExpected=(%v),\nResult=(%v)", input, expected, result)
 	}
 }
+
+// Test from subTests in time_test.go
+// https://github.com/golang/go/blob/master/src/time/time_test.go
+func TestSince(t *testing.T) {
+	tests := []struct {
+		t time.Time
+		u time.Time
+		d *SimpleDuration
+	}{
+		{time.Time{}, time.Time{}, NewSimpleDuration(0)},
+		{time.Date(2009, 11, 23, 0, 0, 0, 1, time.UTC), time.Date(2009, 11, 23, 0, 0, 0, 0, time.UTC), NewSimpleDuration(1)},
+		{time.Date(2009, 11, 23, 0, 0, 0, 0, time.UTC), time.Date(2009, 11, 24, 0, 0, 0, 0, time.UTC), NewSimpleDuration(-24 * time.Hour)},
+		{time.Date(2009, 11, 24, 0, 0, 0, 0, time.UTC), time.Date(2009, 11, 23, 0, 0, 0, 0, time.UTC), NewSimpleDuration(24 * time.Hour)},
+		{time.Date(-2009, 11, 24, 0, 0, 0, 0, time.UTC), time.Date(-2009, 11, 23, 0, 0, 0, 0, time.UTC), NewSimpleDuration(24 * time.Hour)},
+		{time.Time{}, time.Date(2109, 11, 23, 0, 0, 0, 0, time.UTC), NewSimpleDuration(minDuration)},
+		{time.Date(2109, 11, 23, 0, 0, 0, 0, time.UTC), time.Time{}, NewSimpleDuration(maxDuration)},
+		{time.Time{}, time.Date(-2109, 11, 23, 0, 0, 0, 0, time.UTC), NewSimpleDuration(maxDuration)},
+		{time.Date(-2109, 11, 23, 0, 0, 0, 0, time.UTC), time.Time{}, NewSimpleDuration(minDuration)},
+		{time.Date(2290, 1, 1, 0, 0, 0, 0, time.UTC), time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC), NewSimpleDuration(290*365*24*time.Hour + 71*24*time.Hour)},
+		{time.Date(2300, 1, 1, 0, 0, 0, 0, time.UTC), time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC), NewSimpleDuration(maxDuration)},
+		{time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC), time.Date(2290, 1, 1, 0, 0, 0, 0, time.UTC), NewSimpleDuration(-290*365*24*time.Hour - 71*24*time.Hour)},
+		{time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC), time.Date(2300, 1, 1, 0, 0, 0, 0, time.UTC), NewSimpleDuration(minDuration)},
+	}
+	for i, test := range tests {
+		result := NewSimpleTime(test.t).Since(test.u)
+		if !result.Compare(test.d) {
+			t.Errorf("TestSince %d Failed:Expected=(%v),\nResult=(%v)", i, test.d, result)
+		}
+	}
+}
