@@ -144,3 +144,9 @@ func (t *SimpleTime) NextDay() time.Time {
 func (t *SimpleTime) PrevDay() time.Time {
 	return t.AddDays(-1)
 }
+
+// Since returns the time elapsed since u from the reference time t
+func (t *SimpleTime) Since(u time.Time) *SimpleDuration {
+	d := t.Sub(u)
+	return NewSimpleDuration(d)
+}
